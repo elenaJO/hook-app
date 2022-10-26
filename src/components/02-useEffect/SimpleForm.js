@@ -1,0 +1,65 @@
+//el useEffect nos permite ejecutar un efecto secundario cuando algo suceda en nuestro componente
+// al inicio esta configurado que no importa que cambie vuelvete a ejecutar. si le [] solo se dispara cuando se carga una vez cuando se crea
+// fb sugiere que se utilice el useEffect independiente por cada variable, tmb aplica a funciones u objetos.
+
+
+//No se puede usar hooks de manera condicional y tiene q estar en la parte inicial de su componente
+
+import React, { useEffect, useState } from 'react'
+import './effects.css'
+import { Message } from './Message';
+
+export const SimpleForm = () => {
+	const [formState, setFormState] = useState({
+		name: '',
+		email: '',
+	});
+
+	const { name, email } = formState;
+
+	//el useEffect retorna una funcion se dispara cuando el componente se desmonta.
+	useEffect(() => {
+		console.log('hola');
+	}, []);
+
+	useEffect(() => {
+		console.log('cambie email');
+	}, [email]);
+
+	const handleInputChange = ({ target }) => {
+		setFormState({
+			...formState,
+			[target.name]: target.value,
+		});
+	}
+
+	return (
+		<>
+			<h1>UseEffect</h1>
+			<hr />
+			<div className="form-group mb-2">
+				<input 
+					type="text"
+					name="name"
+					className="form-control"
+					placeholder="Tu nombre"
+					autoComplete="off"
+					value={ name }
+					onChange={ handleInputChange }
+				/>
+			</div>
+			<div className="form-group">
+				<input 
+					type="text"
+					name="email"
+					className="form-control"
+					placeholder="Tu correo"
+					autoComplete="off"
+					value={ email }
+					onChange={ handleInputChange }
+				/>
+			</div>
+			{ (name === '123' && <Message />)}
+		</>
+	)
+}
